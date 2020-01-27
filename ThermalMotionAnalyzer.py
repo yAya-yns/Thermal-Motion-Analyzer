@@ -85,14 +85,19 @@ OneDArray = []
 for i in range(0,len(distance),1):
     OneDArray += distance[i]
 
+#create single 1D array for all displacement^2
+OneDSquare = []
+for i in OneDArray:
+    OneDSquare += [i**2]
+
 #obtaining<r^2>
 MeanRSquare = average_TwoDListSquare(distance)
     
 
 
-# #creating histogram
-# graph = plt.hist(OneDArray, bins=20,range=(0,2),density=True)#probability density graph
-# plt.title("Histogram ")
-# plt.xlabel("displacement (µm)")
-# plt.ylabel("Probability Density (1)")
-# plt.show()
+#creating histogram
+graph = plt.hist(MeanRSquare, bins=100,range=(0,30),density=True)#probability density graph
+plt.title("Histogram ")
+plt.xlabel("displacement^2 (µm)")
+plt.ylabel("Probability Density (1)")
+plt.show()
