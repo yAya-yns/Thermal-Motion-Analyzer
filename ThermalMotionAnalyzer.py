@@ -2,6 +2,8 @@ import glob
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy
+import seaborn
 ####constant
 skip = 2 #number of skipping line
 pixToMicron = 0.1155
@@ -92,12 +94,50 @@ for i in OneDArray:
 
 #obtaining<r^2>
 MeanRSquare = average_TwoDListSquare(distance)
-    
 
+#######Method 1:
+def generateTimeLine(timeLine):#input a empty list: generating a 1D array from 0. Len=119, time interval: 0.5s
+    Interval = 0.5
+    accu = 0
+    for i in range(0,119,1):
+        timeLine+=[accu]
+        accu+=Interval
+    return 0
 
-#creating histogram
-graph = plt.hist(MeanRSquare, bins=100,range=(0,30),density=True)#probability density graph
-plt.title("Histogram ")
-plt.xlabel("displacement^2 (µm)")
-plt.ylabel("Probability Density (1)")
-plt.show()
+def plotting(time,MeanRSquare):
+    accumulatedRS = []
+    acc=0
+    for i in range(0,len(MeanRSquare),1):
+        if MeanRSquare[i]<100: #get rid of outliers
+            acc+=MeanRSquare[i]
+        accumulatedRS += [acc]
+        
+    plt.scatter(time,accumulatedRS)#set y to "MeanRSquare" or "accumulatedRS"
+    plt.xlabel("time (s)")
+    plt.ylabel("<r^2> (μm)")
+    plt.title("<r^2> vs time Graph")
+    plt.show()
+    return 0
+
+def methodOneMain():
+    timeLine=[]
+    generateTimeLine(timeLine)
+    plotting(timeLine,MeanRSquare)
+    return 0
+#######################END of Method1
+
+######################Method 2
+def plottingHis():#creating histogram
+    graph = plt.hist(MeanRSquare, bins=100,range=(0,30),density=True)#probability density graph
+    plt.title("Histogram ")
+    plt.xlabel("displacement^2 (µm)")
+    plt.ylabel("Probability Density (1)")
+    plt.show()
+
+def methodTwoMain():
+    plottingHis()
+
+    return 0
+#######################END of Method1    
+methodTwoMain()
+
